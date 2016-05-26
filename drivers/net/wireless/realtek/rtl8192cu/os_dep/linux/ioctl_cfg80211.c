@@ -331,7 +331,7 @@ static int rtw_cfg80211_inform_bss(_adapter *padapter, struct wlan_network *pnet
 	u8 *notify_ie;
 	size_t notify_ielen;
 	s32 notify_signal;
-	u8 buf[MAX_BSSINFO_LEN], *pbuf;
+	u8 *buf, *pbuf;
 	size_t len,bssinf_len=0;
 	struct rtw_ieee80211_hdr *pwlanhdr;
 	unsigned short *fctrl;
@@ -459,6 +459,7 @@ static int rtw_cfg80211_inform_bss(_adapter *padapter, struct wlan_network *pnet
 	DBG_8192C("notify_timestamp: %#018llx\n", notify_timestamp);
 */
 
+	buf = rtw_zmalloc(MAX_BSSINFO_LEN);
 	pbuf = buf;
 
 	pwlanhdr = (struct rtw_ieee80211_hdr *)pbuf;
@@ -485,6 +486,8 @@ static int rtw_cfg80211_inform_bss(_adapter *padapter, struct wlan_network *pnet
 
 	_rtw_memcpy(pbuf, pnetwork->network.IEs, pnetwork->network.IELength);
 	len += pnetwork->network.IELength;
+
+	rtw_mfree(buf, MAX_BSSINFO_LEN);
 
 	//#ifdef CONFIG_P2P
 	//if(rtw_get_p2p_ie(pnetwork->network.IEs+12, pnetwork->network.IELength-12, NULL, NULL))
