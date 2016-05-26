@@ -277,6 +277,183 @@ static int	rtw_proc_cnt = 0;
 
 #define RTW_PROC_NAME DRV_NAME
 
+static const struct file_operations drv_version_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_drv_version
+};
+static const struct file_operations log_level_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_log_level,
+		.write          = proc_set_log_level
+};
+#ifdef DBG_MEM_ALLOC
+static const struct file_operations mstat_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_mstat
+};
+#endif
+static const struct file_operations write_reg_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_write_reg,
+		.write          = proc_set_write_reg
+};
+static const struct file_operations read_reg_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_read_reg,
+		.write          = proc_set_read_reg
+};
+static const struct file_operations fwstate_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_fwstate
+};
+static const struct file_operations sec_info_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_sec_info
+};
+static const struct file_operations mlmext_state_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_mlmext_state
+};
+static const struct file_operations qos_option_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_qos_option
+};
+static const struct file_operations ht_option_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_ht_option
+};
+static const struct file_operations rf_info_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_rf_info
+};
+static const struct file_operations ap_info_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_ap_info
+};
+static const struct file_operations adapter_state_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_adapter_state
+};
+static const struct file_operations trx_info_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_trx_info
+};
+static const struct file_operations mac_reg_dump1_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_mac_reg_dump1
+};
+static const struct file_operations mac_reg_dump2_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_mac_reg_dump2
+};
+static const struct file_operations mac_reg_dump3_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_mac_reg_dump3
+};
+static const struct file_operations bb_reg_dump1_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_bb_reg_dump1
+};
+static const struct file_operations bb_reg_dump2_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_bb_reg_dump2
+};
+static const struct file_operations bb_reg_dump3_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_bb_reg_dump3
+};
+static const struct file_operations rf_reg_dump1_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_rf_reg_dump1
+};
+static const struct file_operations rf_reg_dump2_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_rf_reg_dump2
+};
+static const struct file_operations rf_reg_dump3_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_rf_reg_dump3
+};
+static const struct file_operations rf_reg_dump4_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_rf_reg_dump4
+};
+#ifdef CONFIG_AP_MODE
+static const struct file_operations all_sta_info_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_all_sta_info
+};
+#endif
+#ifdef DBG_MEMORY_LEAK
+static const struct file_operations _malloc_cnt_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_malloc_cnt
+};
+#endif
+#ifdef CONFIG_FIND_BEST_CHANNEL
+static const struct file_operations best_channel_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_best_channel,
+		.write			= proc_set_best_channel
+};
+#endif
+static const struct file_operations rx_signal_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_rx_signal,
+		.write			= proc_set_rx_signal
+};
+static const struct file_operations ht_enable_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_ht_enable,
+		.write			= proc_set_ht_enable
+};
+static const struct file_operations cbw40_enable_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_cbw40_enable,
+		.write			= proc_set_cbw40_enable
+};
+static const struct file_operations ampdu_enable_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_ampdu_enable,
+		.write			= proc_set_ampdu_enable
+};
+static const struct file_operations rx_stbc_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_rx_stbc,
+		.write			= proc_set_rx_stbc
+};
+static const struct file_operations path_rssi_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_two_path_rssi
+};
+static const struct file_operations vid_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_vid
+};
+static const struct file_operations pid_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_pid
+};
+static const struct file_operations rssi_disp_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_rssi_disp,
+		.write			= proc_set_rssi_disp
+};
+#if defined(DBG_CONFIG_ERROR_DETECT)
+static const struct file_operations sreset_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_sreset,
+		.write			= proc_set_sreset
+};
+#endif
+#ifdef CONFIG_DM_ADAPTIVITY
+static const struct file_operations dm_adaptivity_proc_fops = {
+		.owner          = THIS_MODULE,
+		.read           = proc_get_dm_adaptivity,
+		.write			= proc_set_dm_adaptivity
+};
+#endif
+
 void rtw_proc_init_one(struct net_device *dev)
 {
 	struct proc_dir_entry *dir_dev = NULL;
@@ -310,30 +487,27 @@ void rtw_proc_init_one(struct net_device *dev)
 #if(LINUX_VERSION_CODE < KERNEL_VERSION(2,6,24))
 		rtw_proc=create_proc_entry(rtw_proc_name, S_IFDIR, proc_net);
 #else
-		rtw_proc=create_proc_entry(rtw_proc_name, S_IFDIR, init_net.proc_net);
+		rtw_proc=proc_mkdir(rtw_proc_name, init_net.proc_net);
 #endif
 		if (rtw_proc == NULL) {
 			DBG_871X(KERN_ERR "Unable to create rtw_proc directory\n");
 			return;
 		}
 
-		entry = create_proc_read_entry("ver_info", S_IFREG | S_IRUGO, rtw_proc, proc_get_drv_version, dev);
+		entry = proc_create_data("ver_info", S_IFREG | S_IRUGO, rtw_proc, &drv_version_proc_fops, dev);
 		if (!entry) {
 			DBG_871X("Unable to create_proc_read_entry!\n");
 			return;
 		}
 
-		entry = create_proc_read_entry("log_level", S_IFREG | S_IRUGO,
-				   rtw_proc, proc_get_log_level, dev);
+		entry = proc_create_data("log_level", S_IFREG | S_IRUGO, rtw_proc, &log_level_proc_fops, dev);
 		if (!entry) {
 			DBG_871X("Unable to create_proc_read_entry!\n");
 			return;
 		}
-		entry->write_proc = proc_set_log_level;
 
 #ifdef DBG_MEM_ALLOC
-		entry = create_proc_read_entry("mstat", S_IFREG | S_IRUGO,
-				   rtw_proc, proc_get_mstat, dev);
+		entry = proc_create_data("mstat", S_IFREG | S_IRUGO, rtw_proc, &mstat_proc_fops, dev);
 		if (!entry) {
 			DBG_871X("Unable to create_proc_read_entry!\n");
 			return;
@@ -345,9 +519,7 @@ void rtw_proc_init_one(struct net_device *dev)
 
 	if(padapter->dir_dev == NULL)
 	{
-		padapter->dir_dev = create_proc_entry(dev->name,
-					  S_IFDIR | S_IRUGO | S_IXUGO,
-					  rtw_proc);
+		padapter->dir_dev = proc_mkdir(dev->name, rtw_proc);
 
 		dir_dev = padapter->dir_dev;
 
@@ -375,141 +547,102 @@ void rtw_proc_init_one(struct net_device *dev)
 	}
 
 	rtw_proc_cnt++;
-
-	entry = create_proc_read_entry("write_reg", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_write_reg, dev);
-	if (!entry) {
-		DBG_871X("Unable to create_proc_read_entry!\n");
-		return;
-	}
-	entry->write_proc = proc_set_write_reg;
-
-	entry = create_proc_read_entry("read_reg", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_read_reg, dev);
-	if (!entry) {
-		DBG_871X("Unable to create_proc_read_entry!\n");
-		return;
-	}
-	entry->write_proc = proc_set_read_reg;
-
-
-	entry = create_proc_read_entry("fwstate", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_fwstate, dev);
+	entry = proc_create_data("write_reg", S_IFREG | S_IRUGO, dir_dev, &write_reg_proc_fops, dev);
 	if (!entry) {
 		DBG_871X("Unable to create_proc_read_entry!\n");
 		return;
 	}
 
-
-	entry = create_proc_read_entry("sec_info", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_sec_info, dev);
+	entry = proc_create_data("read_reg", S_IFREG | S_IRUGO, dir_dev, &read_reg_proc_fops, dev);
 	if (!entry) {
 		DBG_871X("Unable to create_proc_read_entry!\n");
 		return;
 	}
 
-
-	entry = create_proc_read_entry("mlmext_state", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_mlmext_state, dev);
+	entry = proc_create_data("fwstate", S_IFREG | S_IRUGO, dir_dev, &fwstate_proc_fops, dev);
 	if (!entry) {
 		DBG_871X("Unable to create_proc_read_entry!\n");
 		return;
 	}
 
-
-	entry = create_proc_read_entry("qos_option", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_qos_option, dev);
+	entry = proc_create_data("sec_info", S_IFREG | S_IRUGO, dir_dev, &sec_info_proc_fops, dev);
 	if (!entry) {
 		DBG_871X("Unable to create_proc_read_entry!\n");
 		return;
 	}
 
-	entry = create_proc_read_entry("ht_option", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_ht_option, dev);
+	entry = proc_create_data("mlmext_state", S_IFREG | S_IRUGO, dir_dev, &mlmext_state_proc_fops, dev);
 	if (!entry) {
 		DBG_871X("Unable to create_proc_read_entry!\n");
 		return;
 	}
 
-	entry = create_proc_read_entry("rf_info", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_rf_info, dev);
+	entry = proc_create_data("qos_option", S_IFREG | S_IRUGO, dir_dev, &qos_option_proc_fops, dev);
 	if (!entry) {
 		DBG_871X("Unable to create_proc_read_entry!\n");
 		return;
 	}
-
-	entry = create_proc_read_entry("ap_info", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_ap_info, dev);
+	entry = proc_create_data("ht_option", S_IFREG | S_IRUGO, dir_dev, &ht_option_proc_fops, dev);
 	if (!entry) {
 		DBG_871X("Unable to create_proc_read_entry!\n");
 		return;
 	}
-
-	entry = create_proc_read_entry("adapter_state", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_adapter_state, dev);
+	entry = proc_create_data("rf_info", S_IFREG | S_IRUGO, dir_dev, &rf_info_proc_fops, dev);
 	if (!entry) {
 		DBG_871X("Unable to create_proc_read_entry!\n");
 		return;
 	}
-
-	entry = create_proc_read_entry("trx_info", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_trx_info, dev);
+	entry = proc_create_data("ap_info", S_IFREG | S_IRUGO, dir_dev, &ap_info_proc_fops, dev);
 	if (!entry) {
 		DBG_871X("Unable to create_proc_read_entry!\n");
 		return;
 	}
-
-	entry = create_proc_read_entry("mac_reg_dump1", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_mac_reg_dump1, dev);
+	entry = proc_create_data("adapter_state", S_IFREG | S_IRUGO, dir_dev, &adapter_state_proc_fops, dev);
 	if (!entry) {
 		DBG_871X("Unable to create_proc_read_entry!\n");
 		return;
 	}
-
-	entry = create_proc_read_entry("mac_reg_dump2", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_mac_reg_dump2, dev);
+	entry = proc_create_data("trx_info", S_IFREG | S_IRUGO, dir_dev, &trx_info_proc_fops, dev);
 	if (!entry) {
 		DBG_871X("Unable to create_proc_read_entry!\n");
 		return;
 	}
-
-	entry = create_proc_read_entry("mac_reg_dump3", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_mac_reg_dump3, dev);
+	entry = proc_create_data("mac_reg_dump1", S_IFREG | S_IRUGO, dir_dev, &mac_reg_dump1_proc_fops, dev);
 	if (!entry) {
 		DBG_871X("Unable to create_proc_read_entry!\n");
 		return;
 	}
-
-	entry = create_proc_read_entry("bb_reg_dump1", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_bb_reg_dump1, dev);
+	entry = proc_create_data("mac_reg_dump2", S_IFREG | S_IRUGO, dir_dev, &mac_reg_dump2_proc_fops, dev);
 	if (!entry) {
 		DBG_871X("Unable to create_proc_read_entry!\n");
 		return;
 	}
-
-	entry = create_proc_read_entry("bb_reg_dump2", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_bb_reg_dump2, dev);
+	entry = proc_create_data("mac_reg_dump3", S_IFREG | S_IRUGO, dir_dev, &mac_reg_dump3_proc_fops, dev);
 	if (!entry) {
 		DBG_871X("Unable to create_proc_read_entry!\n");
 		return;
 	}
-
-	entry = create_proc_read_entry("bb_reg_dump3", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_bb_reg_dump3, dev);
+	entry = proc_create_data("bb_reg_dump1", S_IFREG | S_IRUGO, dir_dev, &bb_reg_dump1_proc_fops, dev);
 	if (!entry) {
 		DBG_871X("Unable to create_proc_read_entry!\n");
 		return;
 	}
-
-	entry = create_proc_read_entry("rf_reg_dump1", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_rf_reg_dump1, dev);
+	entry = proc_create_data("bb_reg_dump2", S_IFREG | S_IRUGO, dir_dev, &bb_reg_dump2_proc_fops, dev);
 	if (!entry) {
 		DBG_871X("Unable to create_proc_read_entry!\n");
 		return;
 	}
-
-	entry = create_proc_read_entry("rf_reg_dump2", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_rf_reg_dump2, dev);
+	entry = proc_create_data("bb_reg_dump3", S_IFREG | S_IRUGO, dir_dev, &bb_reg_dump3_proc_fops, dev);
+	if (!entry) {
+		DBG_871X("Unable to create_proc_read_entry!\n");
+		return;
+	}
+	entry = proc_create_data("rf_reg_dump1", S_IFREG | S_IRUGO, dir_dev, &rf_reg_dump1_proc_fops, dev);
+	if (!entry) {
+		DBG_871X("Unable to create_proc_read_entry!\n");
+		return;
+	}
+	entry = proc_create_data("rf_reg_dump2", S_IFREG | S_IRUGO, dir_dev, &rf_reg_dump2_proc_fops, dev);
 	if (!entry) {
 		DBG_871X("Unable to create_proc_read_entry!\n");
 		return;
@@ -517,15 +650,13 @@ void rtw_proc_init_one(struct net_device *dev)
 
 	rtw_hal_get_hwreg(padapter, HW_VAR_RF_TYPE, (u8 *)(&rf_type));
 	if((RF_1T2R == rf_type) ||(RF_1T1R ==rf_type ))	{
-		entry = create_proc_read_entry("rf_reg_dump3", S_IFREG | S_IRUGO,
-					   dir_dev, proc_get_rf_reg_dump3, dev);
+		entry = proc_create_data("rf_reg_dump3", S_IFREG | S_IRUGO, dir_dev, &rf_reg_dump3_proc_fops, dev);
 		if (!entry) {
 			DBG_871X("Unable to create_proc_read_entry!\n");
 			return;
 		}
+		entry = proc_create_data("rf_reg_dump4", S_IFREG | S_IRUGO, dir_dev, &rf_reg_dump4_proc_fops, dev);
 
-		entry = create_proc_read_entry("rf_reg_dump4", S_IFREG | S_IRUGO,
-					   dir_dev, proc_get_rf_reg_dump4, dev);
 		if (!entry) {
 			DBG_871X("Unable to create_proc_read_entry!\n");
 			return;
@@ -533,9 +664,8 @@ void rtw_proc_init_one(struct net_device *dev)
 	}
 
 #ifdef CONFIG_AP_MODE
+	entry = proc_create_data("all_sta_info", S_IFREG | S_IRUGO, dir_dev, &all_sta_info_proc_fops, dev);
 
-	entry = create_proc_read_entry("all_sta_info", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_all_sta_info, dev);
 	if (!entry) {
 		DBG_871X("Unable to create_proc_read_entry!\n");
 		return;
@@ -543,8 +673,8 @@ void rtw_proc_init_one(struct net_device *dev)
 #endif
 
 #ifdef DBG_MEMORY_LEAK
-	entry = create_proc_read_entry("_malloc_cnt", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_malloc_cnt, dev);
+	entry = proc_create_data("_malloc_cnt", S_IFREG | S_IRUGO, dir_dev, &_malloc_cnt_proc_fops, dev);
+
 	if (!entry) {
 		DBG_871X("Unable to create_proc_read_entry!\n");
 		return;
@@ -552,99 +682,83 @@ void rtw_proc_init_one(struct net_device *dev)
 #endif
 
 #ifdef CONFIG_FIND_BEST_CHANNEL
-	entry = create_proc_read_entry("best_channel", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_best_channel, dev);
+	entry = proc_create_data("best_channel", S_IFREG | S_IRUGO, dir_dev, &best_channel_proc_fops, dev);
+
 	if (!entry) {
 		DBG_871X("Unable to create_proc_read_entry!\n");
 		return;
 	}
-	entry->write_proc = proc_set_best_channel;
 #endif
 
-	entry = create_proc_read_entry("rx_signal", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_rx_signal, dev);
+	entry = proc_create_data("rx_signal", S_IFREG | S_IRUGO, dir_dev, &rx_signal_proc_fops, dev);
+
 	if (!entry) {
 		DBG_871X("Unable to create_proc_read_entry!\n");
 		return;
 	}
-	entry->write_proc = proc_set_rx_signal;
-
-	entry = create_proc_read_entry("ht_enable", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_ht_enable, dev);
+	entry = proc_create_data("ht_enable", S_IFREG | S_IRUGO, dir_dev, &ht_enable_proc_fops, dev);
 	if (!entry) {
 		DBG_871X("Unable to create_proc_read_entry!\n");
 		return;
 	}
-	entry->write_proc = proc_set_ht_enable;
+	entry = proc_create_data("cbw40_enable", S_IFREG | S_IRUGO, dir_dev, &cbw40_enable_proc_fops, dev);
 
-	entry = create_proc_read_entry("cbw40_enable", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_cbw40_enable, dev);
 	if (!entry) {
 		DBG_871X("Unable to create_proc_read_entry!\n");
 		return;
 	}
-	entry->write_proc = proc_set_cbw40_enable;
+	entry = proc_create_data("ampdu_enable", S_IFREG | S_IRUGO, dir_dev, &ampdu_enable_proc_fops, dev);
 
-	entry = create_proc_read_entry("ampdu_enable", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_ampdu_enable, dev);
 	if (!entry) {
 		DBG_871X("Unable to create_proc_read_entry!\n");
 		return;
 	}
-	entry->write_proc = proc_set_ampdu_enable;
+	entry = proc_create_data("rx_stbc", S_IFREG | S_IRUGO, dir_dev, &rx_stbc_proc_fops, dev);
 
-	entry = create_proc_read_entry("rx_stbc", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_rx_stbc, dev);
-	if (!entry) {
-		DBG_871X("Unable to create_proc_read_entry!\n");
-		return;
-	}
-	entry->write_proc = proc_set_rx_stbc;
-
-
-	entry = create_proc_read_entry("path_rssi", S_IFREG | S_IRUGO,
-					dir_dev, proc_get_two_path_rssi, dev);
-
-	entry = create_proc_read_entry("vid", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_vid, dev);
 	if (!entry) {
 		DBG_871X("Unable to create_proc_read_entry!\n");
 		return;
 	}
 
-	entry = create_proc_read_entry("pid", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_pid, dev);
+	entry = proc_create_data("path_rssi", S_IFREG | S_IRUGO, dir_dev, &path_rssi_proc_fops, dev);
 	if (!entry) {
 		DBG_871X("Unable to create_proc_read_entry!\n");
 		return;
 	}
 
-	entry = create_proc_read_entry("rssi_disp", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_rssi_disp, dev);
+	entry = proc_create_data("vid", S_IFREG | S_IRUGO, dir_dev, &vid_proc_fops, dev);
 	if (!entry) {
 		DBG_871X("Unable to create_proc_read_entry!\n");
 		return;
 	}
-	entry->write_proc = proc_set_rssi_disp;
+	entry = proc_create_data("pid", S_IFREG | S_IRUGO, dir_dev, &pid_proc_fops, dev);
+	if (!entry) {
+		DBG_871X("Unable to create_proc_read_entry!\n");
+		return;
+	}
+	entry = proc_create_data("rssi_disp", S_IFREG | S_IRUGO, dir_dev, &rssi_disp_proc_fops, dev);
+
+	if (!entry) {
+		DBG_871X("Unable to create_proc_read_entry!\n");
+		return;
+	}
 
 #if defined(DBG_CONFIG_ERROR_DETECT)
-	entry = create_proc_read_entry("sreset", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_sreset, dev);
+	entry = proc_create_data("sreset", S_IFREG | S_IRUGO, dir_dev, &sreset_proc_fops, dev);
+
 	if (!entry) {
 		DBG_871X("Unable to create_proc_read_entry!\n");
 		return;
 	}
-	entry->write_proc = proc_set_sreset;
 #endif /* DBG_CONFIG_ERROR_DETECT */
 
 #ifdef CONFIG_DM_ADAPTIVITY
-	entry = create_proc_read_entry("dm_adaptivity", S_IFREG | S_IRUGO,
-				   dir_dev, proc_get_dm_adaptivity, dev);
+	entry = proc_create_data("dm_adaptivity", S_IFREG | S_IRUGO, dir_dev, &dm_adaptivity_proc_fops, dev);
+
 	if (!entry) {
 		DBG_871X("Unable to create_proc_read_entry!\n");
 		return;
 	}
-	entry->write_proc = proc_set_dm_adaptivity;
 #endif /* CONFIG_DM_ADAPTIVITY */
 
 }

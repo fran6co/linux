@@ -63,25 +63,20 @@
 #ifdef CONFIG_PROC_DEBUG
 #include <rtw_version.h>
 
-int proc_get_drv_version(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_drv_version(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 
 	int len = 0;
 
 	len += snprintf(page + len, count - len, "%s\n", DRIVERVERSION);
 
-	*eof = 1;
 	return len;
 }
 
-int proc_get_log_level(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_log_level(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
 
@@ -92,14 +87,12 @@ int proc_get_log_level(char *page, char **start,
 		GlobalDebugLevel
 		);
 
-	*eof = 1;
 	return len;
 }
 
-int proc_set_log_level(struct file *file, const char *buffer,
-		unsigned long count, void *data)
+ssize_t proc_set_log_level(struct file *file, const char *buffer, size_t count, loff_t *offset)
 {
-	struct net_device *dev = (struct net_device *)data;
+	struct net_device *dev = (struct net_device *)file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	char tmp[32];
 	u32 is_signal_dbg;
@@ -123,31 +116,23 @@ int proc_set_log_level(struct file *file, const char *buffer,
 }
 
 #ifdef DBG_MEM_ALLOC
-int proc_get_mstat(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_mstat(struct file *file, char *page, size_t count, loff_t *offset)
 {
 	int len = 0;
 
 	len += _rtw_mstat_dump(page+len, count-len);
-	*eof = 1;
 
 	return len;
 }
 #endif /* DBG_MEM_ALLOC */
-
-int proc_get_write_reg(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_write_reg(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	*eof = 1;
 	return 0;
 }
 
-int proc_set_write_reg(struct file *file, const char *buffer,
-		unsigned long count, void *data)
+ssize_t proc_set_write_reg(struct file *file, const char *buffer, size_t count, loff_t *offset)
 {
-	struct net_device *dev = (struct net_device *)data;
+	struct net_device *dev = (struct net_device *)file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	char tmp[32];
 	u32 addr, val, len;
@@ -192,18 +177,15 @@ int proc_set_write_reg(struct file *file, const char *buffer,
 static u32 proc_get_read_addr=0xeeeeeeee;
 static u32 proc_get_read_len=0x4;
 
-int proc_get_read_reg(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_read_reg(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 
 	int len = 0;
 
 	if(proc_get_read_addr==0xeeeeeeee)
 	{
-		*eof = 1;
 		return len;
 	}
 
@@ -223,13 +205,11 @@ int proc_get_read_reg(char *page, char **start,
 			break;
 	}
 
-	*eof = 1;
 	return len;
 
 }
 
-int proc_set_read_reg(struct file *file, const char *buffer,
-		unsigned long count, void *data)
+ssize_t proc_set_read_reg(struct file *file, const char *buffer, size_t count, loff_t *offset)
 {
 	char tmp[16];
 	u32 addr, len;
@@ -258,11 +238,9 @@ int proc_set_read_reg(struct file *file, const char *buffer,
 
 }
 
-int proc_get_fwstate(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_fwstate(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
 
@@ -270,15 +248,12 @@ int proc_get_fwstate(char *page, char **start,
 
 	len += snprintf(page + len, count - len, "fwstate=0x%x\n", get_fwstate(pmlmepriv));
 
-	*eof = 1;
 	return len;
 }
 
-int proc_get_sec_info(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_sec_info(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct security_priv *psecuritypriv = &padapter->securitypriv;
 
@@ -288,15 +263,12 @@ int proc_get_sec_info(char *page, char **start,
 						psecuritypriv->dot11AuthAlgrthm, psecuritypriv->dot11PrivacyAlgrthm,
 						psecuritypriv->ndisauthtype, psecuritypriv->ndisencryptstatus);
 
-	*eof = 1;
 	return len;
 }
 
-int proc_get_mlmext_state(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_mlmext_state(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
 	struct mlme_ext_info	*pmlmeinfo = &(pmlmeext->mlmext_info);
@@ -305,15 +277,12 @@ int proc_get_mlmext_state(char *page, char **start,
 
 	len += snprintf(page + len, count - len, "pmlmeinfo->state=0x%x\n", pmlmeinfo->state);
 
-	*eof = 1;
 	return len;
 }
 
-int proc_get_qos_option(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_qos_option(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
 
@@ -321,16 +290,13 @@ int proc_get_qos_option(char *page, char **start,
 
 	len += snprintf(page + len, count - len, "qos_option=%d\n", pmlmepriv->qospriv.qos_option);
 
-	*eof = 1;
 	return len;
 
 }
 
-int proc_get_ht_option(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_ht_option(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
 
@@ -338,15 +304,12 @@ int proc_get_ht_option(char *page, char **start,
 
 	len += snprintf(page + len, count - len, "ht_option=%d\n", pmlmepriv->htpriv.ht_option);
 
-	*eof = 1;
 	return len;
 }
 
-int proc_get_rf_info(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_rf_info(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
 	int len = 0;
@@ -355,17 +318,14 @@ int proc_get_rf_info(char *page, char **start,
 		"oper_ch=%d, oper_bw=%d, oper_ch_offet=%d\n",
 		pmlmeext->cur_channel, pmlmeext->cur_bwmode, pmlmeext->cur_ch_offset,
 		rtw_get_oper_ch(padapter), rtw_get_oper_bw(padapter), rtw_get_oper_choffset(padapter));
-	*eof = 1;
 
 	return len;
 }
 
-int proc_get_ap_info(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_ap_info(struct file *file, char *page, size_t count, loff_t *offset)
 {
 	struct sta_info *psta;
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
@@ -404,33 +364,28 @@ int proc_get_ap_info(char *page, char **start,
 		len += snprintf(page + len, count - len, "can't get sta's macaddr, cur_network's macaddr:" MAC_FMT "\n", MAC_ARG(cur_network->network.MacAddress));
 	}
 
-	*eof = 1;
 	return len;
 
 }
 
-int proc_get_adapter_state(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_adapter_state(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	int len = 0;
 
 	len += snprintf(page + len, count - len, "bSurpriseRemoved=%d, bDriverStopped=%d\n",
 						padapter->bSurpriseRemoved, padapter->bDriverStopped);
 
-	*eof = 1;
+
 	return len;
 
 }
 
-int proc_get_trx_info(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_trx_info(struct file *file, char *page, size_t count, loff_t *offset)
 {
 	int i;
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
 	struct recv_priv  *precvpriv = &padapter->recvpriv;
@@ -463,18 +418,15 @@ int proc_get_trx_info(char *page, char **start,
 		len += snprintf(page + len, count - len, "%d, hwq.accnt=%d\n", i, phwxmit->accnt);
 	}
 
-	*eof = 1;
 	return len;
 
 }
 
 
 
-int proc_get_mac_reg_dump1(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_mac_reg_dump1(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	int len = 0;
 	int i,j=1;
@@ -488,16 +440,13 @@ int proc_get_mac_reg_dump1(char *page, char **start,
 		if((j++)%4 == 0)	len += snprintf(page + len, count - len,"\n");
 	}
 
-	*eof = 1;
 	return len;
 
 }
 
-int proc_get_mac_reg_dump2(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_mac_reg_dump2(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	int len = 0;
 	int i,j=1;
@@ -511,16 +460,13 @@ int proc_get_mac_reg_dump2(char *page, char **start,
 		if((j++)%4 == 0)	len += snprintf(page + len, count - len,"\n");
 	}
 
-	*eof = 1;
 	return len;
 
 }
 
-int proc_get_mac_reg_dump3(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_mac_reg_dump3(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	int len = 0;
 	int i,j=1;
@@ -534,16 +480,13 @@ int proc_get_mac_reg_dump3(char *page, char **start,
 		if((j++)%4 == 0)	len += snprintf(page + len, count - len,"\n");
 	}
 
-	*eof = 1;
 	return len;
 
 }
 
-int proc_get_bb_reg_dump1(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_bb_reg_dump1(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	int len = 0;
 	int i,j=1;
@@ -555,15 +498,12 @@ int proc_get_bb_reg_dump1(char *page, char **start,
 		len += snprintf(page + len, count - len," 0x%08x ",rtw_read32(padapter,i));
 		if((j++)%4 == 0)	len += snprintf(page + len, count - len,"\n");
 	}
-	*eof = 1;
 	return len;
 }
 
-int proc_get_bb_reg_dump2(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_bb_reg_dump2(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	int len = 0;
 	int i,j=1;
@@ -575,15 +515,12 @@ int proc_get_bb_reg_dump2(char *page, char **start,
 		len += snprintf(page + len, count - len," 0x%08x ",rtw_read32(padapter,i));
 		if((j++)%4 == 0)	len += snprintf(page + len, count - len,"\n");
 	}
-	*eof = 1;
 	return len;
 }
 
-int proc_get_bb_reg_dump3(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_bb_reg_dump3(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	int len = 0;
 	int i,j=1;
@@ -595,15 +532,12 @@ int proc_get_bb_reg_dump3(char *page, char **start,
 		len += snprintf(page + len, count - len," 0x%08x ",rtw_read32(padapter,i));
 		if((j++)%4 == 0)	len += snprintf(page + len, count - len,"\n");
 	}
-	*eof = 1;
 	return len;
 }
 
-int proc_get_rf_reg_dump1(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_rf_reg_dump1(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	int len = 0;
 	int i,j=1,path;
@@ -621,16 +555,13 @@ int proc_get_rf_reg_dump1(char *page, char **start,
 		if((j++)%4==0)	len += snprintf(page + len, count - len, "\n");
 	}
 
-	*eof = 1;
 	return len;
 }
 
 
-int proc_get_rf_reg_dump2(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_rf_reg_dump2(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	int len = 0;
 	int i,j=1,path;
@@ -647,16 +578,13 @@ int proc_get_rf_reg_dump2(char *page, char **start,
 		len += snprintf(page + len, count - len, " 0x%08x ",value);
 		if((j++)%4==0)	len += snprintf(page + len, count - len, "\n");
 	}
-	*eof = 1;
 	return len;
 }
 
 
-int proc_get_rf_reg_dump3(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_rf_reg_dump3(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	int len = 0;
 	int i,j=1,path;
@@ -674,16 +602,13 @@ int proc_get_rf_reg_dump3(char *page, char **start,
 		if((j++)%4==0)	len += snprintf(page + len, count - len, "\n");
 	}
 
-	*eof = 1;
 	return len;
 }
 
 
-int proc_get_rf_reg_dump4(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_rf_reg_dump4(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	int len = 0;
 	int i,j=1,path;
@@ -700,17 +625,14 @@ int proc_get_rf_reg_dump4(char *page, char **start,
 		len += snprintf(page + len, count - len, " 0x%08x ",value);
 		if((j++)%4==0)	len += snprintf(page + len, count - len, "\n");
 	}
-	*eof = 1;
 	return len;
 }
 
 
 
-int proc_get_rx_signal(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_rx_signal(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
 
@@ -729,14 +651,12 @@ int proc_get_rx_signal(char *page, char **start,
 		padapter->recvpriv.noise
 		);
 
-	*eof = 1;
 	return len;
 }
 
-int proc_set_rx_signal(struct file *file, const char *buffer,
-		unsigned long count, void *data)
+ssize_t proc_set_rx_signal(struct file *file, const char *buffer, size_t count, loff_t *offset)
 {
-	struct net_device *dev = (struct net_device *)data;
+	struct net_device *dev = (struct net_device *)file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	char tmp[32];
 	u32 is_signal_dbg, signal_strength;
@@ -770,11 +690,9 @@ int proc_set_rx_signal(struct file *file, const char *buffer,
 
 }
 
-int proc_get_ht_enable(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_ht_enable(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct registry_priv	*pregpriv = &padapter->registrypriv;
 
@@ -786,14 +704,12 @@ int proc_get_ht_enable(char *page, char **start,
 			pregpriv->ht_enable
 			);
 
-	*eof = 1;
 	return len;
 }
 
-int proc_set_ht_enable(struct file *file, const char *buffer,
-		unsigned long count, void *data)
+ssize_t proc_set_ht_enable(struct file *file, const char *buffer, size_t count, loff_t *offset)
 {
-	struct net_device *dev = (struct net_device *)data;
+	struct net_device *dev = (struct net_device *)file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct registry_priv	*pregpriv = &padapter->registrypriv;
 	char tmp[32];
@@ -818,11 +734,9 @@ int proc_set_ht_enable(struct file *file, const char *buffer,
 }
 
 
-int proc_get_cbw40_enable(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_cbw40_enable(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct registry_priv	*pregpriv = &padapter->registrypriv;
 
@@ -834,14 +748,12 @@ int proc_get_cbw40_enable(char *page, char **start,
 			pregpriv->cbw40_enable
 			);
 
-	*eof = 1;
 	return len;
 }
 
-int proc_set_cbw40_enable(struct file *file, const char *buffer,
-		unsigned long count, void *data)
+ssize_t proc_set_cbw40_enable(struct file *file, const char *buffer, size_t count, loff_t *offset)
 {
-	struct net_device *dev = (struct net_device *)data;
+	struct net_device *dev = (struct net_device *)file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct registry_priv	*pregpriv = &padapter->registrypriv;
 	char tmp[32];
@@ -865,11 +777,9 @@ int proc_set_cbw40_enable(struct file *file, const char *buffer,
 
 }
 
-int proc_get_ampdu_enable(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_ampdu_enable(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct registry_priv	*pregpriv = &padapter->registrypriv;
 
@@ -880,15 +790,13 @@ int proc_get_ampdu_enable(char *page, char **start,
 			"%d\n",
 			pregpriv->ampdu_enable
 			);
-
-	*eof = 1;
+			
 	return len;
 }
 
-int proc_set_ampdu_enable(struct file *file, const char *buffer,
-		unsigned long count, void *data)
+ssize_t proc_set_ampdu_enable(struct file *file, const char *buffer, size_t count, loff_t *offset)
 {
-	struct net_device *dev = (struct net_device *)data;
+	struct net_device *dev = (struct net_device *)file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct registry_priv	*pregpriv = &padapter->registrypriv;
 	char tmp[32];
@@ -913,11 +821,9 @@ int proc_set_ampdu_enable(struct file *file, const char *buffer,
 }
 
 
-int proc_get_two_path_rssi(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_two_path_rssi(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 
 	int len = 0;
@@ -929,15 +835,12 @@ int proc_get_two_path_rssi(char *page, char **start,
 			padapter->recvpriv.RxRssi[1]
 			);
 
-	*eof = 1;
 	return len;
 }
 
-int proc_get_rx_stbc(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_rx_stbc(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct registry_priv	*pregpriv = &padapter->registrypriv;
 
@@ -949,14 +852,12 @@ int proc_get_rx_stbc(char *page, char **start,
 			pregpriv->rx_stbc
 			);
 
-	*eof = 1;
 	return len;
 }
 
-int proc_set_rx_stbc(struct file *file, const char *buffer,
-		unsigned long count, void *data)
+ssize_t proc_set_rx_stbc(struct file *file, const char *buffer, size_t count, loff_t *offset)
 {
-	struct net_device *dev = (struct net_device *)data;
+	struct net_device *dev = (struct net_device *)file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct registry_priv	*pregpriv = &padapter->registrypriv;
 	char tmp[32];
@@ -980,11 +881,9 @@ int proc_set_rx_stbc(struct file *file, const char *buffer,
 
 }
 
-int proc_get_vid(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_vid(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	u16 VID=0;
 	int len = 0;
@@ -995,15 +894,12 @@ int proc_get_vid(char *page, char **start,
 		VID
 		);
 
-	*eof = 1;
 	return len;
 }
 
-int proc_get_pid(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_pid(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	u16 PID=0;
 	int len = 0;
@@ -1014,22 +910,17 @@ int proc_get_pid(char *page, char **start,
 		PID
 		);
 
-	*eof = 1;
 	return len;
 }
 
-int proc_get_rssi_disp(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_rssi_disp(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	*eof = 1;
 	return 0;
 }
 
-int proc_set_rssi_disp(struct file *file, const char *buffer,
-		unsigned long count, void *data)
+ssize_t proc_set_rssi_disp(struct file *file, const char *buffer, size_t count, loff_t *offset)
 {
-	struct net_device *dev = (struct net_device *)data;
+	struct net_device *dev = (struct net_device *)file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	char tmp[32];
 	u32 enable=0;
@@ -1069,13 +960,11 @@ int proc_set_rssi_disp(struct file *file, const char *buffer,
 
 #ifdef CONFIG_AP_MODE
 
-int proc_get_all_sta_info(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_all_sta_info(struct file *file, char *page, size_t count, loff_t *offset)
 {
 	_irqL irqL;
 	struct sta_info *psta;
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct sta_priv *pstapriv = &padapter->stapriv;
 	int i, j;
@@ -1134,7 +1023,6 @@ int proc_get_all_sta_info(char *page, char **start,
 
 	_exit_critical_bh(&pstapriv->sta_hash_lock, &irqL);
 
-	*eof = 1;
 	return len;
 
 }
@@ -1146,9 +1034,7 @@ int proc_get_all_sta_info(char *page, char **start,
 extern atomic_t _malloc_cnt;;
 extern atomic_t _malloc_size;;
 
-int proc_get_malloc_cnt(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_malloc_cnt(struct file *file, char *page, size_t count, loff_t *offset)
 {
 
 	int len = 0;
@@ -1156,17 +1042,14 @@ int proc_get_malloc_cnt(char *page, char **start,
 	len += snprintf(page + len, count - len, "_malloc_cnt=%d\n", atomic_read(&_malloc_cnt));
 	len += snprintf(page + len, count - len, "_malloc_size=%d\n", atomic_read(&_malloc_size));
 
-	*eof = 1;
 	return len;
 }
 #endif /* DBG_MEMORY_LEAK */
 
 #ifdef CONFIG_FIND_BEST_CHANNEL
-int proc_get_best_channel(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_best_channel(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
 	int len = 0;
@@ -1217,15 +1100,13 @@ int proc_get_best_channel(char *page, char **start,
 	len += snprintf(page + len, count - len, "best_channel_5G = %d\n", best_channel_5G);
 	len += snprintf(page + len, count - len, "best_channel_24G = %d\n", best_channel_24G);
 
-	*eof = 1;
 	return len;
 
 }
 
-int proc_set_best_channel(struct file *file, const char *buffer,
-		unsigned long count, void *data)
+ssize_t proc_set_best_channel(struct file *file, const char *buffer, size_t count, loff_t *offset)
 {
-	struct net_device *dev = (struct net_device *)data;
+	struct net_device *dev = (struct net_device *)file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
 	char tmp[32];
@@ -1250,21 +1131,20 @@ int proc_set_best_channel(struct file *file, const char *buffer,
 
 #if defined(DBG_CONFIG_ERROR_DETECT)
 #include <rtw_sreset.h>
-int proc_get_sreset(char *page, char **start, off_t offset, int count, int *eof, void *data)
+ssize_t proc_get_sreset(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
 
 	int len = 0;
 
-	*eof = 1;
 	return len;
 }
 
-int proc_set_sreset(struct file *file, const char *buffer, unsigned long count, void *data)
+ssize_t proc_set_sreset(struct file *file, const char *buffer, size_t count, loff_t *offset)
 {
-	struct net_device *dev = (struct net_device *)data;
+	struct net_device *dev = (struct net_device *)file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	char tmp[32];
 	s32 trigger_point;
@@ -1288,24 +1168,20 @@ int proc_set_sreset(struct file *file, const char *buffer, unsigned long count, 
 #endif /* DBG_CONFIG_ERROR_DETECT */
 
 #ifdef CONFIG_DM_ADAPTIVITY
-int proc_get_dm_adaptivity(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data)
+ssize_t proc_get_dm_adaptivity(struct file *file, char *page, size_t count, loff_t *offset)
 {
-	struct net_device *dev = data;
+	struct net_device *dev = file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	int len = 0;
 
 	len += dm_adaptivity_get_parm_str(padapter, page, count);
 
-	*eof = 1;
 	return len;
 }
 
-int proc_set_dm_adaptivity(struct file *file, const char *buffer,
-		unsigned long count, void *data)
+ssize_t proc_set_dm_adaptivity(struct file *file, const char *buffer, size_t count, loff_t *offset)
 {
-	struct net_device *dev = (struct net_device *)data;
+	struct net_device *dev = (struct net_device *)file->private_data;
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(dev);
 	char tmp[32];
 	u32 TH_L2H_ini;

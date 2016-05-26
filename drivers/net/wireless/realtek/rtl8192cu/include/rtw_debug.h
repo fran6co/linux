@@ -334,202 +334,117 @@ extern u32 GlobalDebugLevel;
 
 #ifdef CONFIG_PROC_DEBUG
 
-	int proc_get_drv_version(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_drv_version(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_get_log_level(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_log_level(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_set_log_level(struct file *file, const char *buffer,
-			unsigned long count, void *data);
+	ssize_t proc_set_log_level(struct file *, const char *, size_t, loff_t *);
 
 #ifdef DBG_MEM_ALLOC
-	int proc_get_mstat(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_mstat(struct file *file, char *page, size_t count, loff_t *);
 #endif /* DBG_MEM_ALLOC */
 
-	int proc_get_write_reg(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_write_reg(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_set_write_reg(struct file *file, const char *buffer,
-		unsigned long count, void *data);
+	ssize_t proc_set_write_reg(struct file *, const char *, size_t, loff_t *);
 
-	int proc_get_read_reg(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_read_reg(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_set_read_reg(struct file *file, const char *buffer,
-		unsigned long count, void *data);
+	ssize_t proc_set_read_reg(struct file *, const char *, size_t, loff_t *);
 
 
-	int proc_get_fwstate(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_fwstate(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_get_sec_info(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_sec_info(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_get_mlmext_state(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_mlmext_state(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_get_qos_option(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_qos_option(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_get_ht_option(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_ht_option(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_get_rf_info(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_rf_info(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_get_ap_info(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_ap_info(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_get_adapter_state(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_adapter_state(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_get_trx_info(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_trx_info(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_get_mac_reg_dump1(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_mac_reg_dump1(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_get_mac_reg_dump2(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_mac_reg_dump2(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_get_mac_reg_dump3(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_mac_reg_dump3(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_get_bb_reg_dump1(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_bb_reg_dump1(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_get_bb_reg_dump2(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_bb_reg_dump2(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_get_bb_reg_dump3(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_bb_reg_dump3(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_get_rf_reg_dump1(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_rf_reg_dump1(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_get_rf_reg_dump2(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_rf_reg_dump2(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_get_rf_reg_dump3(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_rf_reg_dump3(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_get_rf_reg_dump4(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_rf_reg_dump4(struct file *file, char *page, size_t count, loff_t *);
 
 #ifdef CONFIG_AP_MODE
 
-	int proc_get_all_sta_info(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_all_sta_info(struct file *file, char *page, size_t count, loff_t *);
 
 #endif
 
 #ifdef DBG_MEMORY_LEAK
-	int proc_get_malloc_cnt(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_malloc_cnt(struct file *file, char *page, size_t count, loff_t *);
 #endif
 
 #ifdef CONFIG_FIND_BEST_CHANNEL
-	int proc_get_best_channel(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
-	int proc_set_best_channel(struct file *file, const char *buffer,
-		unsigned long count, void *data);
+	ssize_t proc_get_best_channel(struct file *file, char *page, size_t count, loff_t *);
+	ssize_t proc_set_best_channel(struct file *, const char *, size_t, loff_t *);
 #endif
 
-	int proc_get_rx_signal(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_rx_signal(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_set_rx_signal(struct file *file, const char *buffer,
-		unsigned long count, void *data);
+	ssize_t proc_set_rx_signal(struct file *, const char *, size_t, loff_t *);
 
-	int proc_get_ht_enable(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_ht_enable(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_set_ht_enable(struct file *file, const char *buffer,
-		unsigned long count, void *data);
+	ssize_t proc_set_ht_enable(struct file *, const char *, size_t, loff_t *);
 
-	int proc_get_cbw40_enable(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_cbw40_enable(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_set_cbw40_enable(struct file *file, const char *buffer,
-		unsigned long count, void *data);
+	ssize_t proc_set_cbw40_enable(struct file *, const char *, size_t, loff_t *);
 
-	int proc_get_ampdu_enable(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_ampdu_enable(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_set_ampdu_enable(struct file *file, const char *buffer,
-		unsigned long count, void *data);
+	ssize_t proc_set_ampdu_enable(struct file *, const char *, size_t, loff_t *);
 
-	int proc_get_two_path_rssi(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_two_path_rssi(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_get_rx_stbc(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_rx_stbc(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_set_rx_stbc(struct file *file, const char *buffer,
-		unsigned long count, void *data);
+	ssize_t proc_set_rx_stbc(struct file *, const char *, size_t, loff_t *);
 
 
-	int proc_get_vid(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_vid(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_get_pid(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_pid(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_get_rssi_disp(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
+	ssize_t proc_get_rssi_disp(struct file *file, char *page, size_t count, loff_t *);
 
-	int proc_set_rssi_disp(struct file *file, const char *buffer,
-		unsigned long count, void *data);
+	ssize_t proc_set_rssi_disp(struct file *, const char *, size_t, loff_t *);
 
 #if defined(DBG_CONFIG_ERROR_DETECT)
-int proc_get_sreset(char *page, char **start, off_t offset, int count, int *eof, void *data);
-int proc_set_sreset(struct file *file, const char *buffer, unsigned long count, void *data);
+ssize_t proc_get_sreset(struct file *file, char *page, size_t count, loff_t *);
+ssize_t proc_set_sreset(struct file *, const char *, size_t, loff_t *);
 #endif /* DBG_CONFIG_ERROR_DETECT */
 
 #ifdef CONFIG_DM_ADAPTIVITY
-int proc_get_dm_adaptivity(char *page, char **start,
-			  off_t offset, int count,
-			  int *eof, void *data);
-int proc_set_dm_adaptivity(struct file *file, const char *buffer,
-		unsigned long count, void *data);
+ssize_t proc_get_dm_adaptivity(struct file *file, char *page, size_t count, loff_t *);
+ssize_t proc_set_dm_adaptivity(struct file *, const char *, size_t, loff_t *);
 #endif /* CONFIG_DM_ADAPTIVITY */
 
 #endif //CONFIG_PROC_DEBUG
